@@ -49,4 +49,5 @@ jobs:
           JF_FAIL: "false"
           JFROG_CLI_LOG_LEVEL: "DEBUG"
           CI: "true"
+          JF_WATCHES: "secrets"
           JF_USE_WRAPPER: false
