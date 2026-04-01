@@ -27,7 +27,7 @@ jobs:
     - name: Setup JFrog CLI
       uses: jfrog/setup-jfrog-cli@v4
     - name: Run JFrog Curation Audit
-      run: jf curation audit
+      run: jf curation-audit
     - uses: actions/checkout@v4
     - name: Set up JDK 17
       uses: actions/setup-java@v4
