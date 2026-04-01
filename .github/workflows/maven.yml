@@ -11,8 +11,8 @@ name: Java CI with Maven
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  pull_request_target:
+    types: [ opened, synchronize ]
 permissions:
   contents: write
   pull-requests: write
@@ -37,7 +37,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-  frogbot-scan:
+  scan-pull-request:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -53,4 +53,9 @@ jobs:
           JF_FAIL: "false"
           JFROG_CLI_LOG_LEVEL: "DEBUG"
           CI: "true"
+          JF_PR_SHOW_SECRETS_COMMENTS: "TRUE"
+          JF_INCLUDE_ALL_VULNERABILITIES: "TRUE"
+          JF_INCLUDE_VULNERABILITIES: "TRUE"
+          
           JF_USE_WRAPPER: false
+          JF_WATCHES: "secrets"
