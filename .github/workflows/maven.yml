@@ -37,11 +37,11 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-  frogbot-scan:
+  scan-repository:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # The repository scanning will be triggered periodically on the following branches.
+        # fThe repository scanning will be triggered periodically on the following branches.
         branch: ["main"]
     steps:
       - uses: jfrog/frogbot@v2
@@ -53,4 +53,9 @@ jobs:
           JF_FAIL: "false"
           JFROG_CLI_LOG_LEVEL: "DEBUG"
           CI: "true"
+          JF_PR_SHOW_SECRETS_COMMENTS: "TRUE"
+          JF_INCLUDE_ALL_VULNERABILITIES: "TRUE"
+          JF_INCLUDE_VULNERABILITIES: "TRUE"
+          
           JF_USE_WRAPPER: false
+          JF_WATCHES: "secrets"
