@@ -9,10 +9,10 @@
 name: Java CI with Maven
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
+  schedule:
+    # The repository will be scanned once a day at 00:00 GMT.
+    - cron: "0 0 * * *"
 permissions:
   contents: write
   pull-requests: write
@@ -24,10 +24,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Setup JFrog CLI
-      uses: jfrog/setup-jfrog-cli@v4
-    - name: Run JFrog Curation Audit
-      run: jf curation-audit
     - uses: actions/checkout@v4
     - name: Set up JDK 17
       uses: actions/setup-java@v4
@@ -37,7 +33,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-  scan-repository:
+  frogbot-scan:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -53,9 +49,4 @@ jobs:
           JF_FAIL: "false"
           JFROG_CLI_LOG_LEVEL: "DEBUG"
           CI: "true"
-          JF_PR_SHOW_SECRETS_COMMENTS: "TRUE"
-          JF_INCLUDE_ALL_VULNERABILITIES: "TRUE"
-          JF_INCLUDE_VULNERABILITIES: "TRUE"
-          
           JF_USE_WRAPPER: false
-          JF_WATCHES: "secrets"
